@@ -1,66 +1,38 @@
 #include <stdio.h>
-#include <string.h>
+#include <string.h> // Pour utiliser strcmp()
 
-// Définitions des structures
-typedef struct item {
-    char sNom[30];
-    int iAnnee_naissance;
-    struct item *suivant;
-} item;
-
-typedef struct personne {
+// Définition du type personne
+typedef struct {
     char sNom[30];
     int iAnnee_naissance;
     char sTelephone[20];
 } personne;
 
-// Fonction pour saisir les informations d'une personne
-int saisir(personne *individu) {
-    if (individu == NULL) {
-        printf("L'adresse de la personne est NULL.\n");
-        return 0;
+// Fonction pour vérifier si deux personnes sont identiques
+int est_identique(personne individu1, personne individu2) {
+    // Comparer les trois champs : sNom, iAnnee_naissance, sTelephone
+    if (strcmp(individu1.sNom, individu2.sNom) != 0) {
+        return 0; // Les noms sont différents
     }
-
-    printf("Saisir le nom : ");
-    scanf("%s", individu->sNom);
-
-    // Vérification du symbole spécial (#)
-    if (individu->sNom[0] == '#') {
-        return 0;
+    if (individu1.iAnnee_naissance != individu2.iAnnee_naissance) {
+        return 0; // Les années de naissance sont différentes
     }
-
-    printf("Saisir l'année de naissance : ");
-    scanf("%d", &individu->iAnnee_naissance);
-
-    printf("Saisir le téléphone : ");
-    scanf("%s", individu->sTelephone);
-
+    if (strcmp(individu1.sTelephone, individu2.sTelephone) != 0) {
+        return 0; // Les numéros de téléphone sont différents
+    }
+    
+    // Si tous les champs sont égaux, les deux personnes sont identiques
     return 1;
 }
 
-// Fonction pour afficher les informations d'une personne
-void afficher_personne(const personne *individu) {
-    if (individu == NULL) {
-        printf("Aucune personne à afficher.\n");
-        return;
-    }
-
-    printf("Nom : %s\n", individu->sNom);
-    printf("Année de naissance : %d\n", individu->iAnnee_naissance);
-    printf("Téléphone : %s\n", individu->sTelephone);
-}
-
+// Fonction principale pour tester la fonction
 int main() {
-    personne individu;
+    personne p1 = {"John Doe", 1990, "1234567890"};
+    personne p2 = {"John Doe", 1990, "1234567890"};
+    personne p3 = {"Jane Smith", 1985, "0987654321"};
 
-    // Saisie des informations
-    if (saisir(&individu) == 0) {
-        printf("Saisie interrompue.\n");
-        return 0;
-    }
-
-    // Affichage des informations saisies
-    afficher_personne(&individu);
+    printf("Comparaison p1 et p2: %d\n", est_identique(p1, p2)); // Devrait afficher 1
+    printf("Comparaison p1 et p3: %d\n", est_identique(p1, p3)); // Devrait afficher 0
 
     return 0;
 }
